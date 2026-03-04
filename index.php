@@ -1,3 +1,24 @@
+<?php
+/**
+ * Garten2000 – Startseite
+ * Liest Galeriebilder dynamisch aus assets/img/gallery/
+ */
+
+// Erlaubte Bilddateierweiterungen für die Galerie
+$allowedGalleryExt = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+$galleryDir  = __DIR__ . '/assets/img/gallery/';
+$galleryImgs = [];
+
+if (is_dir($galleryDir)) {
+    $files = scandir($galleryDir);
+    foreach ($files as $f) {
+        $ext = strtolower(pathinfo($f, PATHINFO_EXTENSION));
+        if (in_array($ext, $allowedGalleryExt, true)) {
+            $galleryImgs[] = $f;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -52,16 +73,7 @@
        ============================================================ -->
   <nav id="navbar" role="navigation" aria-label="Hauptnavigation">
     <a href="#hero" class="nav-logo" aria-label="Garten2000 Startseite">
-      <div class="logo-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 8C8 10 5.9 16.17 3.82 20.33L5.71 21l1-2.3A4.49 4.49 0 0 0 8 19c8 0 12-8 12-8a11.9 11.9 0 0 1-3 3z"/>
-          <path d="M15 3c-2.21 0-4 1.34-4 3v2c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V6c0-1.66-1.79-3-4-3z"/>
-        </svg>
-      </div>
-      <div>
-        Garten2000
-        <span class="logo-year">Handewitt seit 1976</span>
-      </div>
+      <img src="assets/img/logo navbar.png" alt="Garten2000 Handewitt" class="nav-logo-img" />
     </a>
 
     <ul class="nav-links" role="list">
@@ -373,10 +385,36 @@
           </p>
 
           <p class="ueber-text">
+            Auf unserem weitläufigen Gelände direkt an der B200 bieten wir Ihnen auf 
+            mehreren tausend Quadratmetern eine riesige Auswahl an Pflanzen, Gartenbedarf 
+            und Dekoration – stets frisch, saisonal und mit fachkundiger Beratung.
+          </p>
+
+          <p class="ueber-text">
             Unser Team aus erfahrenen Gärtnern und Fachberatern steht Ihnen das ganze Jahr 
             mit Rat und Tat zur Seite. Ob Balkonbepflanzung, Staudenrabatte oder 
             Weihnachtsgestaltung – wir finden gemeinsam die perfekte Lösung für Ihren Garten.
           </p>
+
+          <!-- Ausbildung -->
+          <div class="ueber-ausbildung">
+            <div class="ausbildung-icon" aria-hidden="true">🌱</div>
+            <div>
+              <h3>Ausbildung bei Garten2000</h3>
+              <p>
+                Wir bilden seit vielen Jahren erfolgreich aus! Bei uns können Sie eine 
+                Ausbildung zum <strong>Gärtner/zur Gärtnerin (Fachrichtung Zierpflanzenbau)</strong>
+                oder zum <strong>Verkäufer/zur Verkäuferin</strong> absolvieren. 
+                Theorie und Praxis gehen bei uns Hand in Hand – in einem familiären, 
+                herzlichen Umfeld mit echten Entwicklungsmöglichkeiten.
+              </p>
+              <p>
+                Interesse? Schreiben Sie uns einfach eine E-Mail oder kommen Sie direkt 
+                in unserem Gartencenter vorbei. Wir freuen uns auf engagierte Nachwuchskräfte, 
+                die Pflanzen und Natur genauso lieben wie wir!
+              </p>
+            </div>
+          </div>
 
           <div class="ueber-values">
             <div class="ueber-value">
@@ -385,7 +423,7 @@
               </div>
               <div class="ueber-value-text">
                 <strong>Familiengeführt</strong>
-                <span>Persönliche Beratung & Herzlichkeit</span>
+                <span>Persönliche Beratung &amp; Herzlichkeit</span>
               </div>
             </div>
             <div class="ueber-value">
@@ -411,8 +449,8 @@
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
               </div>
               <div class="ueber-value-text">
-                <strong>Für alle Altersgruppen</strong>
-                <span>Vom Rentner bis zur jungen Familie</span>
+                <strong>Ausbildungsbetrieb</strong>
+                <span>Wir bilden mit Herz aus</span>
               </div>
             </div>
           </div>
@@ -515,104 +553,59 @@
       </div>
 
       <div class="galerie-grid" id="galerieGrid">
-        <div class="galerie-item galerie-bg-1 reveal" data-caption="Blühende Saisonpflanzen">
-          <img
-            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=75&fit=crop"
-            alt="Farbenfrohe Blumen und Pflanzen in unserem Gartencenter"
-            loading="lazy"
-          />
-          <div class="galerie-overlay">
-            <span class="galerie-overlay-text">Blühende Vielfalt</span>
-          </div>
-        </div>
+        <?php
+        // CSS-Klassen für abwechselnde Hintergründe der Galerie-Items
+        $bgClasses = ['galerie-bg-1','galerie-bg-2','galerie-bg-3','galerie-bg-4','galerie-bg-5','galerie-bg-6'];
+        $bgCount   = count($bgClasses);
 
-        <div class="galerie-item galerie-bg-2 reveal" data-caption="Unsere Pflanzenhalle">
+        if (!empty($galleryImgs)):
+          // Eigene Galeriebilder aus assets/img/gallery/ anzeigen
+          foreach ($galleryImgs as $i => $imgFile):
+            $bgClass = $bgClasses[$i % $bgCount];
+            $imgPath = 'assets/img/gallery/' . htmlspecialchars($imgFile);
+            $imgAlt  = htmlspecialchars(pathinfo($imgFile, PATHINFO_FILENAME));
+        ?>
+        <div class="galerie-item <?= $bgClass ?> reveal" data-caption="<?= $imgAlt ?>">
           <img
-            src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=75&fit=crop"
-            alt="Pflanzenhalle mit grünen Pflanzen und Sträuchern"
+            src="<?= $imgPath ?>"
+            alt="<?= $imgAlt ?>"
             loading="lazy"
           />
           <div class="galerie-overlay">
-            <span class="galerie-overlay-text">Pflanzenhalle</span>
+            <span class="galerie-overlay-text"><?= $imgAlt ?></span>
           </div>
         </div>
-
-        <div class="galerie-item galerie-bg-3 reveal" data-caption="Frische Kräuter">
+        <?php
+          endforeach;
+        else:
+          // Platzhalter-Bilder wenn die Galerie noch leer ist
+          $placeholders = [
+            ['src'=>'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=75&fit=crop','alt'=>'Farbenfrohe Blumen und Pflanzen in unserem Gartencenter','caption'=>'Blühende Vielfalt','bg'=>'galerie-bg-1'],
+            ['src'=>'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=75&fit=crop','alt'=>'Pflanzenhalle mit grünen Pflanzen und Sträuchern','caption'=>'Pflanzenhalle','bg'=>'galerie-bg-2'],
+            ['src'=>'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=600&q=75&fit=crop','alt'=>'Frische Kräuter und Gemüsesetzlinge','caption'=>'Kräuter &amp; Gemüse','bg'=>'galerie-bg-3'],
+            ['src'=>'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=600&q=75&fit=crop','alt'=>'Vielfältige Staudenpflanzen im Freiland','caption'=>'Stauden &amp; Beete','bg'=>'galerie-bg-4'],
+            ['src'=>'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=600&q=75&fit=crop','alt'=>'Elegante Gartendekoration und Keramik','caption'=>'Gartendekoration','bg'=>'galerie-bg-5'],
+            ['src'=>'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&q=75&fit=crop','alt'=>'Große Bäume und Sträucher im Außenbereich','caption'=>'Bäume &amp; Sträucher','bg'=>'galerie-bg-1'],
+            ['src'=>'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&q=75&fit=crop','alt'=>'Dekorative Topfpflanzen und Zimmerpflanzen','caption'=>'Topfpflanzen','bg'=>'galerie-bg-6'],
+            ['src'=>'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=600&q=75&fit=crop','alt'=>'Strahlende Sonnenblumen in voller Blüte','caption'=>'Sonnenblumen','bg'=>'galerie-bg-2'],
+            ['src'=>'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&q=75&fit=crop','alt'=>'Weitläufiger Außenbereich mit Bäumen und Sträuchern','caption'=>'Außenbereich','bg'=>'galerie-bg-3'],
+          ];
+          foreach ($placeholders as $p):
+        ?>
+        <div class="galerie-item <?= $p['bg'] ?> reveal" data-caption="<?= $p['caption'] ?>">
           <img
-            src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=600&q=75&fit=crop"
-            alt="Frische Kräuter und Gemüsesetzlinge"
+            src="<?= $p['src'] ?>"
+            alt="<?= $p['alt'] ?>"
             loading="lazy"
           />
           <div class="galerie-overlay">
-            <span class="galerie-overlay-text">Kräuter &amp; Gemüse</span>
+            <span class="galerie-overlay-text"><?= $p['caption'] ?></span>
           </div>
         </div>
-
-        <div class="galerie-item galerie-bg-4 reveal" data-caption="Stauden">
-          <img
-            src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=600&q=75&fit=crop"
-            alt="Vielfältige Staudenpflanzen im Freiland"
-            loading="lazy"
-          />
-          <div class="galerie-overlay">
-            <span class="galerie-overlay-text">Stauden &amp; Beete</span>
-          </div>
-        </div>
-
-        <div class="galerie-item galerie-bg-5 reveal" data-caption="Gartendekoration">
-          <img
-            src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=600&q=75&fit=crop"
-            alt="Elegante Gartendekoration und Keramik"
-            loading="lazy"
-          />
-          <div class="galerie-overlay">
-            <span class="galerie-overlay-text">Gartendekoration</span>
-          </div>
-        </div>
-
-        <div class="galerie-item galerie-bg-1 reveal" data-caption="Bäume & Sträucher">
-          <img
-            src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&q=75&fit=crop"
-            alt="Große Bäume und Sträucher im Außenbereich"
-            loading="lazy"
-          />
-          <div class="galerie-overlay">
-            <span class="galerie-overlay-text">Bäume &amp; Sträucher</span>
-          </div>
-        </div>
-
-        <div class="galerie-item galerie-bg-6 reveal" data-caption="Topfpflanzen">
-          <img
-            src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&q=75&fit=crop"
-            alt="Dekorative Topfpflanzen und Zimmerpflanzen"
-            loading="lazy"
-          />
-          <div class="galerie-overlay">
-            <span class="galerie-overlay-text">Topfpflanzen</span>
-          </div>
-        </div>
-
-        <div class="galerie-item galerie-bg-2 reveal" data-caption="Sonnenblumen">
-          <img
-            src="https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=600&q=75&fit=crop"
-            alt="Strahlende Sonnenblumen in voller Blüte"
-            loading="lazy"
-          />
-          <div class="galerie-overlay">
-            <span class="galerie-overlay-text">Sonnenblumen</span>
-          </div>
-        </div>
-
-        <div class="galerie-item galerie-bg-3 reveal" data-caption="Unser Außenbereich">
-          <img
-            src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&q=75&fit=crop"
-            alt="Weitläufiger Außenbereich mit Bäumen und Sträuchern"
-            loading="lazy"
-          />
-          <div class="galerie-overlay">
-            <span class="galerie-overlay-text">Außenbereich</span>
-          </div>
-        </div>
+        <?php
+          endforeach;
+        endif;
+        ?>
       </div>
     </div>
   </section>
@@ -855,9 +848,8 @@
       <div class="footer-bottom">
         <p>© 2026 Garten2000 Handewitt · 50 Jahre Leidenschaft für Ihren Garten 🌿</p>
         <nav class="footer-bottom-links" aria-label="Rechtliche Links">
-          <a href="#">Impressum</a>
-          <a href="#">Datenschutz</a>
-          <a href="#">AGB</a>
+          <a href="pages/impressum.php">Impressum</a>
+          <a href="pages/datenschutz.php">Datenschutz</a>
         </nav>
       </div>
     </div>
