@@ -63,7 +63,7 @@ html {
 body {
   font-family: var(--font-sans);
   color: var(--dark);
-  background: var(--green-50);
+  background: var(--green-200);
   overflow-x: hidden;
   line-height: 1.6;
 }
@@ -305,14 +305,14 @@ ul { list-style: none; }
   width: 22px; height: 22px; fill: white;
 }
 
-.nav-logo .logo-year {
-  font-size: 0.65rem;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  color: var(--green-300);
+/* Logo-Bild in der Navbar */
+.nav-logo-img {
+  height: 44px;
+  width: auto;
   display: block;
-  letter-spacing: 0.12em;
-  text-shadow: none;
+  object-fit: contain;
+  /* Leichter Schatten für bessere Sichtbarkeit auf dunklem Hintergrund */
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.25));
 }
 
 .nav-links {
@@ -790,7 +790,7 @@ ul { list-style: none; }
    ============================================================ */
 #oeffnungszeiten {
   padding: var(--section-py) 0;
-  background: linear-gradient(180deg, var(--green-50) 0%, var(--green-100) 100%);
+  background: linear-gradient(180deg, var(--green-100) 0%, var(--green-200) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -985,7 +985,7 @@ ul { list-style: none; }
    ============================================================ */
 #ueber-uns {
   padding: var(--section-py) 0;
-  background: var(--white);
+  background: var(--green-50);
   position: relative;
   overflow: hidden;
 }
@@ -1072,6 +1072,40 @@ ul { list-style: none; }
   margin: 32px 0;
 }
 
+/* Ausbildungs-Hinweis-Box */
+.ueber-ausbildung {
+  display: flex;
+  gap: 16px;
+  background: linear-gradient(135deg, var(--green-800), var(--green-700));
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  margin: 24px 0;
+  color: var(--green-100);
+}
+
+.ueber-ausbildung .ausbildung-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.ueber-ausbildung h3 {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.ueber-ausbildung p {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--green-200);
+  margin-bottom: 8px;
+}
+
+.ueber-ausbildung p:last-child { margin-bottom: 0; }
+
 .ueber-value {
   display: flex;
   align-items: flex-start;
@@ -1108,9 +1142,9 @@ ul { list-style: none; }
   align-items: center;
   gap: 16px;
   padding: 20px 24px;
-  background: var(--green-50);
+  background: var(--green-100);
   border-radius: var(--radius-md);
-  border: 1px solid var(--green-100);
+  border: 1px solid var(--green-200);
   margin-top: 24px;
 }
 
@@ -1208,7 +1242,7 @@ ul { list-style: none; }
    ============================================================ */
 #galerie {
   padding: var(--section-py) 0;
-  background: var(--green-50);
+  background: var(--green-100);
   position: relative;
 }
 
@@ -1282,7 +1316,7 @@ ul { list-style: none; }
    ============================================================ */
 #warum {
   padding: var(--section-py) 0;
-  background: var(--white);
+  background: var(--green-100);
   overflow: hidden;
   position: relative;
 }
@@ -1297,7 +1331,7 @@ ul { list-style: none; }
   padding: clamp(24px, 3vw, 40px);
   border-radius: var(--radius-lg);
   background: var(--green-50);
-  border: 1px solid var(--green-100);
+  border: 1px solid var(--green-200);
   transition: all var(--t-med) var(--ease);
 }
 
@@ -1305,7 +1339,7 @@ ul { list-style: none; }
   transform: translateY(-6px);
   background: var(--white);
   box-shadow: 0 12px 48px rgba(27,67,50,0.1);
-  border-color: var(--green-200);
+  border-color: var(--green-300);
 }
 
 .warum-number {
@@ -1336,7 +1370,7 @@ ul { list-style: none; }
    ============================================================ */
 #cta-banner {
   padding: clamp(60px, 8vw, 100px) 0;
-  background: linear-gradient(135deg, var(--green-700) 0%, var(--green-600) 50%, var(--green-500) 100%);
+  background: linear-gradient(135deg, var(--green-900) 0%, var(--green-800) 50%, var(--green-700) 100%);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -1405,7 +1439,7 @@ ul { list-style: none; }
    ============================================================ */
 #kontakt {
   padding: var(--section-py) 0;
-  background: linear-gradient(180deg, var(--green-50) 0%, var(--green-100) 100%);
+  background: linear-gradient(180deg, var(--green-100) 0%, var(--green-200) 100%);
   position: relative;
 }
 
